@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+      <meta charset="UTF-8">
+      <title>ReactLite Demo</title>
+      <link rel="stylesheet" href="../css/styles.css">
+   </head>
+   <body>
+      <div id="root"></div>
+      <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+      <script src="../js/react-lite.js"></script>
+      <script type="text/jsx" data-presets="es2016,react">
+      
+      /** @jsx RL.createElement */
+
+      var RL = ReactLite();
+      const stories = [{
+          name: "Didact introduction",
+          url: "http://bit.ly/2pX7HNn"
+        },
+        {
+          name: "Rendering DOM elements ",
+          url: "http://bit.ly/2qCOejH"
+        },
+        {
+          name: "Element creation and JSX",
+          url: "http://bit.ly/2qGbw8S"
+        },
+        {
+          name: "Instances and reconciliation",
+          url: "http://bit.ly/2q4A746"
+        },
+        {
+          name: "Components and state",
+          url: "http://bit.ly/2rE16nh"
+        }
+      ];
+  
+      class App extends RL.Component {
+        render() {
+          return (
+            <div>
+              <h1>ReactLite Stories</h1>
+              <ul>
+                {this.props.stories.map(story => {
+                  return <Story name={story.name} url={story.url} />;
+                })}
+              </ul>
+            </div>
+          );
+        }
+      } 
+  
+      class Story extends RL.Component {
+        constructor(props) {
+          super(props);
+          this.state = {
+              likes: Math.ceil(Math.random() * 100)
+          };
+        }
+        like() {
+          this.setState({
+              likes: this.state.likes + 1
+          });
+        }
+        render() {
+          const {
+              name,
+              url
+          } = this.props;
+          const {
+              likes
+          } = this.state;
+          const likesElement = < span / > ;
+          return ( 
+            <li>
+              <button onClick={e => this.like()}>{likes}<b>❤️</b></button>
+              <a href={url}>{name}</a>
+            </li>
+          );
+        }
+      }
+  
+      RL.render(<App stories={stories} />, document.getElementById("root")); 
+  </script>
+  </body>
+</html>
